@@ -34,10 +34,11 @@ export default function Home() {
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
         <div className="max-w-4xl mx-auto text-center">
           {/* Main Heading */}
+          <img src="/assets/nsc_mascot.png" alt="North Seattle College Logo" className="w-10 h-10" />
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-            Your AI Assistant for
+            North Seattle College
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-              Opportunities & Resources
+              Opportunitiy Center
             </span>
           </h1>
 
