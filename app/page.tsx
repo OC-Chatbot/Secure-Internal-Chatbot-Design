@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const translations = [
-  { lang: 'English', text: 'Start Chatting' },
-  { lang: 'Spanish', text: 'Comenzar a Chatear' },
-  { lang: 'Swahili', text: 'Anza Kuzungumza' },
-  { lang: 'Chinese', text: '开始聊天' },
-  { lang: 'Vietnamese', text: 'Bắt đầu trò chuyện' },
+  { lang: "English", text: "Start Chatting" },
+  { lang: "Spanish", text: "Comenzar a Chatear" },
+  { lang: "Swahili", text: "Anza Kuzungumza" },
+  { lang: "Chinese", text: "开始聊天" },
+  { lang: "Vietnamese", text: "Bắt đầu trò chuyện" },
 ];
 
 export default function Home() {
@@ -25,16 +25,18 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Header */}
       <header className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <nav className="flex items-center justify-between">
-          
-        </nav>
+        <nav className="flex items-center justify-between"></nav>
       </header>
 
       {/* Hero Section */}
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
         <div className="max-w-4xl mx-auto text-center">
           {/* Main Heading */}
-          <img src="/assets/nsc_mascot.png" alt="North Seattle College Logo" className="w-10 h-10" />
+          <img
+            src="/assets/nsc_mascot.png"
+            alt="North Seattle College Logo"
+            className="h-50 mx-auto mb-6"
+          />
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
             North Seattle College
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
@@ -44,8 +46,9 @@ export default function Home() {
 
           {/* Subheading */}
           <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Get instant answers, find resources, and discover opportunities tailored to your needs. 
-            Our intelligent chatbot is here to help you 24/7.
+            Get instant answers, find resources, and discover opportunities
+            tailored to your needs. Our intelligent chatbot is here to help you
+            24/7.
           </p>
 
           {/* CTA Button */}
@@ -105,8 +108,12 @@ export default function Home() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">AI Assistant</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Online • Ready to help</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">
+                    AI Assistant
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Online • Ready to help
+                  </p>
                 </div>
               </div>
 
@@ -118,10 +125,13 @@ export default function Home() {
                   <div className="flex-1">
                     <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-sm px-4 py-3">
                       <p className="text-gray-800 dark:text-gray-200">
-                        Hello! I'm here to help you find opportunities and resources. What can I assist you with today?
+                        Hello! I'm here to help you find opportunities and
+                        resources. What can I assist you with today?
                       </p>
                     </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 ml-2">Just now</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 ml-2">
+                      Just now
+                    </p>
                   </div>
                 </div>
 
@@ -131,7 +141,9 @@ export default function Home() {
                     <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl rounded-tr-sm px-4 py-3 ml-auto">
                       <p>I'm looking for career development opportunities</p>
                     </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 mr-2 text-right">Just now</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 mr-2 text-right">
+                      Just now
+                    </p>
                   </div>
                   <div className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600 flex-shrink-0"></div>
                 </div>
@@ -142,9 +154,18 @@ export default function Home() {
                   <div className="flex-1">
                     <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-sm px-4 py-3 w-20">
                       <div className="flex gap-1">
-                        <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                        <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                        <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                        <div
+                          className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce"
+                          style={{ animationDelay: "0ms" }}
+                        ></div>
+                        <div
+                          className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce"
+                          style={{ animationDelay: "150ms" }}
+                        ></div>
+                        <div
+                          className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce"
+                          style={{ animationDelay: "300ms" }}
+                        ></div>
                       </div>
                     </div>
                   </div>
