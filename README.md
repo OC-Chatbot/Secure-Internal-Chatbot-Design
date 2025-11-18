@@ -46,7 +46,7 @@ Pre-reqs:
 Setup:
 1. Clone repository
 ```git clone https://github.com/OC-Chatbot/Secure-Internal-Chatbot-Design.git```
-2. Install Ollama ([here]([url](https://ollama.com/download/windows)))
+2. Install Ollama ([here](https://ollama.com/download/windows))
 3. Restart Git Bash, verify right version of model:
 ```ollama --version```<br/>
 ```ollama pull llama3.1```<br/>
