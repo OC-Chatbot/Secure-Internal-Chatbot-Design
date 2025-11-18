@@ -39,4 +39,4 @@ Pre-reqs:
 - PostgreSQL 14+
 - Ollama (latest build)
 - Clone the repo:
-'repo link here'
+```git clone https://github.com/OC-Chatbot/Secure-Internal-Chatbot-Design.git```
