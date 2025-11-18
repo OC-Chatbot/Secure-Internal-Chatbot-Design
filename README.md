@@ -48,8 +48,8 @@ Setup:
 ```git clone https://github.com/OC-Chatbot/Secure-Internal-Chatbot-Design.git```
 2. Install Ollama ([here]([url](https://ollama.com/download/windows)))
 3. Restart Git Bash, verify right version of model:
-```ollama --version```
-```ollama pull llama3.1```
+```ollama --version```<br/>
+```ollama pull llama3.1```<br/>
 ```ollama serve``` 
 4. Start Ollama Server
 ```ollama serve```
@@ -60,7 +60,7 @@ Setup:
 8. Setup backend (Python/FastAPI)
 ```cd backend```
 Either using Anaconda Navigator to open virtual environment use GitBash:
-```python -m venv venv```
+```python -m venv venv```<br/>
 ```venv\Scripts\activate```
 Add dependencies:
 ```pip install -r requirements.txt```
@@ -69,26 +69,26 @@ Database migrations:
 ```alembic upgrade head```
 Start backend server:
 ```uvicorn app.main:app --reload --host 0.0.0.0 --port 8000```
-API Base hosted:
-http://localhost:8000
-Interactive Docs:
-http://localhost:8000/docs
+API Base hosted:<br/>
+http://localhost:8000<br/>
+Interactive Docs:<br/>
+http://localhost:8000/docs<br/>
 9. Setup frontend (Next.js/TypeScript)
-```cd frontend```
+```cd frontend```<br/>
 ```npm install```
 Configure env variables and edit .env.local
-```cp .env.example .env.local```
+```cp .env.example .env.local```<br/>
 ```NEXT_PUBLIC_API_URL=http://localhost:8000```
 Start development server:
 ```npm run dev```
 10. Run Application
 Open four terminals:
-    - Terminal #1: Ollama ```ollama serve```
-    - Terminal #2: PostgreSQL (if not running as a service): ```net start postgresql-x64-14```
-    - Terminal #3: ```cd backend```, ```venv\Scripts\activate```, ```uvicorn app.main:app --reload --port 8000```
+    - Terminal #1: Ollama ```ollama serve```<br/>
+    - Terminal #2: PostgreSQL (if not running as a service): ```net start postgresql-x64-14```<br/>
+    - Terminal #3: ```cd backend```, ```venv\Scripts\activate```, ```uvicorn app.main:app --reload --port 8000```<br/>
     - Terminal #4: ```cd frontend```, ```npm run dev```
 11. Access Application
-Open http://localhost:3000 in browser, log in with demo credentials (if set up to seed)
+Open http://localhost:3000 in browser, log in with demo credentials (if set up to seed)<br/>
 
 Start Chatting! 
 
