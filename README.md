@@ -1,7 +1,7 @@
 # AI Opportunity Center Chatbot
 
 ## Team Members
-[Bradley Charles](https://github.com/BradleyCharles)
+[Bradley Charles](https://github.com/BradleyCharles)<br/>
 [Rae Maffei](https://github.com/givecoffee)
 
 ## Project Overview
