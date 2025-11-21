@@ -1,25 +1,51 @@
 'use client';
 
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, useEffect, useRef } from 'react';
 
 interface ChatInputProps {
   value: string;
   onChange: (value: string) => void;
-  onSend: () => void;
+  onSend: () => void | Promise<void>;
   disabled?: boolean;
 }
 
 export function ChatInput({ value, onChange, onSend, disabled = false }: ChatInputProps) {
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const focusInput = () => {
+    if (!disabled) {
+      inputRef.current?.focus();
+    }
+  };
+
+  useEffect(() => {
+    focusInput();
+  }, []);
+
+  useEffect(() => {
+    if (!disabled) {
+      focusInput();
+    }
+  }, [disabled]);
+
+  const handleSend = () => {
+    if (disabled || !value.trim()) return;
+
+    const result = onSend();
+    Promise.resolve(result).finally(focusInput);
+  };
+
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      onSend();
+      handleSend();
     }
   };
 
   return (
     <div className="flex items-end gap-3 bg-gray-50 dark:bg-gray-800 rounded-full px-4 py-3 border border-gray-200 dark:border-gray-700 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
       <textarea
+        ref={inputRef}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -30,7 +56,7 @@ export function ChatInput({ value, onChange, onSend, disabled = false }: ChatInp
         style={{ minHeight: '24px', height: 'auto' }}
       />
       <button
-        onClick={onSend}
+        onClick={handleSend}
         disabled={disabled || !value.trim()}
         className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
       >
@@ -51,4 +77,3 @@ export function ChatInput({ value, onChange, onSend, disabled = false }: ChatInp
     </div>
   );
 }
-
