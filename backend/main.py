@@ -1,3 +1,6 @@
+#testing for correct path_remove when done
+print(">>> Loaded backend/main.py <<<")
+
 from __future__ import annotations
 
 from datetime import datetime
