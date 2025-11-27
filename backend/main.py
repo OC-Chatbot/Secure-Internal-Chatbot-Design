@@ -222,6 +222,44 @@ def get_conversation(conversation_id: str, request: Request):
         conversationId=conversation_id,
     )
 
+@app.get("/api/admin/stats")
+def get_admin_stats(request: Request):
+    user_id = _get_user_id(request)
+    # aggregate across this user's data
+    user_meta = _get_user_metadata_store(user_id)
+    user_msgs = _get_user_message_store(user_id)
+
+    total_conversations = len(user_meta)
+    total_messages = sum(len(user_msgs.get(cid, [])) for cid in user_msgs)
+    active_users = 1 if total_conversations > 0 else 0
+
+    return {
+        "totalUsers": 1,
+        "totalConversations": total_conversations,
+        "totalMessages": total_messages,
+        "activeUsers": active_users,
+    }
+
+@app.get("/api/admin/users")
+def get_admin_users():
+    # simple in-memory listing; expand if you have a real user store
+    users = []
+    for user_id, metas in conversation_metadata.items():
+        users.append({
+            "id": user_id,
+            "name": user_id,
+            "email": f"{user_id}@example.com",
+            "role": "admin" if user_id == "admin" else "user",
+            "createdAt": next(iter(metas.values()))["created_at"].isoformat() if metas else datetime.utcnow().isoformat(),
+        })
+    return users
+
+@app.post("/api/admin/settings")
+def update_admin_settings(settings: dict):
+    # echo back for now; persist to a config store if you add one later
+    return settings
+
+
 @app.get("/api/admin/settings")
 def get_admin_settings():
     return {"message": "Admin settings placeholder"}
