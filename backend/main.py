@@ -306,6 +306,10 @@ def get_admin_settings():
 def update_admin_settings(settings: AdminSettings):
     return settings
 
+@app.get("/api/admin/test")
+def admin_test_get():
+    return {"status": "ok", "message": "Admin test GET endpoint working"}
+
 @app.post("/api/admin/test", response_model=TestResponse)
 def admin_test(req: TestRequest):
     if not req.prompt.strip():
