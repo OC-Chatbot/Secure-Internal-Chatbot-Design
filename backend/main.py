@@ -299,31 +299,31 @@ def chat_with_llm(req: SendMessageRequest, request: Request):
     # Note: generate_text is expected to be synchronous and return a short string reply.
     # This implementation wraps errors into HTTPExceptions for clarity to the frontend.
     try:
-    reply_text = generate_text(
-        prompt=prompt,
-        max_new_tokens=80,
-        temperature=0.2,
-        top_p=0.8,
-        do_sample=False,
-        wrap_prompt=False,
-        strip_after="Answer:",
-    )
-except ValueError as e:
-    # Validation errors from the LLM helper (e.g., invalid parameters)
-    raise HTTPException(status_code=400, detail=str(e))
-except Exception:
-    # Generic failure (model call / infra) -> 500
-    raise HTTPException(status_code=500, detail="LLM generation failed.")
+        reply_text = generate_text(
+            prompt=prompt,
+            max_new_tokens=80,
+            temperature=0.2,
+            top_p=0.8,
+            do_sample=False,
+            wrap_prompt=False,
+            strip_after="Answer:",
+        )
+    except ValueError as e:
+        # Validation errors from the LLM helper (e.g., invalid parameters)
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception:
+        # Generic failure (model call / infra) -> 500
+        raise HTTPException(status_code=500, detail="LLM generation failed.")
 
-# Guard against empty replies
-if not reply_text:
-    raise HTTPException(status_code=500, detail="Empty LLM reply.")
+    # Guard against empty replies
+    if not reply_text:
+        raise HTTPException(status_code=500, detail="Empty LLM reply.")
 
-# Clean the raw model reply to strip common sign‑offs
-clean_reply = strip_signature(reply_text).strip()
+    # Clean the raw model reply to strip common sign‑offs
+    clean_reply = strip_signature(reply_text).strip()
 
-assistant_message = _store_message(user_id, conversation_id, "assistant", clean_reply)
-return SendMessageResponse(message=assistant_message, conversationId=conversation_id)
+    assistant_message = _store_message(user_id, conversation_id, "assistant", clean_reply)
+    return SendMessageResponse(message=assistant_message, conversationId=conversation_id)
 
 
 @app.delete("/api/chat/conversations/{conversation_id}")
