@@ -13,9 +13,14 @@ from pydantic import BaseModel
 # Local LLM interface (synchronous helper used by chat endpoint)
 from backend.llm_model import generate_text
 
-# LLM proxy router (e.g., Hugging Face proxy) - included so frontend / internal endpoints
-# can call /api/llm/* routes if backend/llm_proxy.py is present.
-from backend.llm_proxy import router as llm_router
+# LLM proxy router (optional). If backend/llm_proxy.py is not present, register an empty router.
+try:
+    # Allows /api/llm/* routes when llm_proxy module exists
+    from backend.llm_proxy import router as llm_router
+except ImportError:
+    # Fallback so app startup does not fail when the module is absent
+    from fastapi import APIRouter
+    llm_router = APIRouter()
 
 # --- App setup ---
 # Create FastAPI app and set metadata
