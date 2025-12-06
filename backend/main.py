@@ -309,7 +309,7 @@ def chat_with_llm(req: SendMessageRequest, request: Request):
             max_new_tokens=80,
             temperature=0.2,
             top_p=0.8,
-            do_sample=False,
+            do_sample=True,
             wrap_prompt=False,
             strip_after="Answer:",
         )
