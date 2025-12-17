@@ -18,6 +18,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 
+# Use npm.cmd on Windows so the frontend script launches correctly.
+if os.name == "nt":
+    FRONTEND_CMD = ["npm.cmd", "run", "dev", "--", "--port", "3000"]
+else:
+    FRONTEND_CMD = ["npm", "run", "dev", "--", "--port", "3000"]
+
 
 def start_process(cmd: list[str], cwd: Path, name: str) -> subprocess.Popen:
     env = os.environ.copy()
@@ -47,7 +53,7 @@ def main() -> int:
             "--port",
             "8000",
         ]
-        frontend_cmd = ["npm", "run", "dev", "--", "--port", "3000"]
+        frontend_cmd = FRONTEND_CMD
 
         processes.append(("backend", start_process(backend_cmd, ROOT, "backend")))
         processes.append(("frontend", start_process(frontend_cmd, ROOT, "frontend")))

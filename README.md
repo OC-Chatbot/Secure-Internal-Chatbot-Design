@@ -33,7 +33,7 @@ We are designing a prototype for a secure, in-house chatbot system with the focu
 ## Setup & Installation
 
 ### Prerequisites
-- Python 3.10+
+- Python 3.11
 - Node.js 18+ (with npm)
 - Git
 
@@ -43,36 +43,64 @@ git clone https://github.com/OC-Chatbot/Secure-Internal-Chatbot-Design.git
 cd Secure-Internal-Chatbot-Design
 ```
 
-### 2) Backend setup (FastAPI)
+### 2) Linux install & run (bash)
+Backend setup:
 ```bash
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
+python3.11 -m venv .venv
+source .venv/bin/activate
 pip install -r backend/requirements.txt
 ```
 
-### 3) Frontend setup (Next.js)
+Frontend setup:
 ```bash
 npm install
 ```
 
-### 4) Run both services
-Recommended (single command):
+Run both services (recommended single command):
 ```bash
-python start_services.py
+./.venv/bin/python start_services.py
 ```
 This starts `uvicorn backend.main:app` on port 8000 and `next dev` on port 3000. It also sets `NEXT_PUBLIC_API_URL` to `http://localhost:8000/api` if unset.
 
 Manual alternative:
 ```bash
-# Terminal 1
 source .venv/bin/activate
+export NEXT_PUBLIC_API_URL=http://localhost:8000/api
 uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 
-# Terminal 2
+# New terminal
 npm run dev -- --port 3000
 ```
 
-### 5) Access the app
+### 3) Windows install & run (PowerShell)
+Backend setup:
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r backend\requirements.txt
+```
+
+Frontend setup:
+```powershell
+npm install
+```
+
+Run both services (recommended single command):
+```powershell
+.\.venv\Scripts\python.exe .\start_services.py
+```
+
+Manual alternative:
+```powershell
+.\.venv\Scripts\Activate.ps1
+$env:NEXT_PUBLIC_API_URL="http://localhost:8000/api"
+uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
+
+# New PowerShell window
+npm run dev -- --port 3000
+```
+
+### 4) Access the app
 - Frontend: http://localhost:3000 (chat UI at `/chat`)
 - Backend docs: http://localhost:8000/docs
 
