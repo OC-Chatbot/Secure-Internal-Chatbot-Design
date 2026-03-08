@@ -43,7 +43,7 @@ export function ChatInput({ value, onChange, onSend, disabled = false }: ChatInp
   };
 
   return (
-    <div className="flex items-end gap-3 bg-gray-50 dark:bg-gray-800 rounded-full px-4 py-3 border border-gray-200 dark:border-gray-700 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+    <div className="flex items-end gap-3 bg-gray-50 dark:bg-gray-800 rounded-full px-4 py-2 border border-gray-200 dark:border-gray-700 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
       <textarea
         ref={inputRef}
         value={value}

@@ -141,7 +141,9 @@ export default function Home() {
                 <div className="flex gap-3 justify-end">
                   <div className="flex-1 max-w-[80%]">
                     <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl rounded-tr-sm px-4 py-3 ml-auto">
-                      <p>I&apos;m looking for career development opportunities</p>
+                      <p>
+                        I&apos;m looking for career development opportunities
+                      </p>
                     </div>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 mr-2 text-right">
                       Just now
@@ -283,7 +285,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-16 border-t border-gray-200 dark:border-gray-700">
         <div className="text-center text-gray-600 dark:text-gray-400">
-          <p>&copy; 2024 Opportunity Center. All rights reserved.</p>
+          <p>&copy; 2026 All rights reserved.</p>
         </div>
       </footer>
     </div>

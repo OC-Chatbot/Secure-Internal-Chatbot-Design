@@ -29,9 +29,11 @@ export function ChatWindow({ messages, onSendMessage, isLoading = false, convers
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-900">
+    <div className="flex flex-col h-full bg-gray-50 dark:bg-gray-950 p-6">
+      <div className="flex flex-col flex-1 max-w-2xl w-full mx-auto overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700 shadow-xl bg-white dark:bg-gray-900">
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+      <div className="flex-1 overflow-y-auto py-6">
+        <div className="px-4 space-y-4">
         {messages.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
@@ -80,16 +82,18 @@ export function ChatWindow({ messages, onSendMessage, isLoading = false, convers
             <div ref={messagesEndRef} />
           </>
         )}
+        </div>
       </div>
 
       {/* Input Area */}
-      <div className="border-t border-gray-200 dark:border-gray-700 px-4 py-4">
+      <div className="border-t border-gray-200 dark:border-gray-700 py-2 px-4">
         <ChatInput
           value={inputValue}
           onChange={setInputValue}
           onSend={handleSend}
           disabled={isLoading}
         />
+      </div>
       </div>
     </div>
   );

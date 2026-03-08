@@ -30,7 +30,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
           </svg>
         </div>
       )}
-      <div className={`flex-1 ${isUser ? 'max-w-[80%]' : ''}`}>
+      <div className="max-w-[75%]">
         <div
           className={`rounded-2xl px-4 py-3 ${
             isUser
