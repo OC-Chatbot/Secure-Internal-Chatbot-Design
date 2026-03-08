@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 # Local LLM interface (synchronous helper used by chat endpoint)
-from backend.llm_model import generate_text
+from backend.llm_model import generate_text, SYSTEM_PROMPT
 
 # LLM proxy router (optional). If backend/llm_proxy.py is not present, register an empty router.
 try:
@@ -27,9 +27,12 @@ except ImportError:
 app = FastAPI(title="Opportunity Center Chat Backend", version="1.0.0")
 
 # Health check endpoint (lightweight)
+
+
 @app.get("/__health")
 def health():
     return {"status": "ok"}
+
 
 # Configure CORS for local Next.js frontend during development.
 # If you deploy to production, update allow_origins to exact domain(s).
@@ -196,33 +199,23 @@ def strip_signature(text: str) -> str:
 
 def _build_prompt(user_id: str, conversation_id: str) -> str:
     """
-    Build a deterministic prompt for the LLM based on recent conversation history.
-    - Includes a system instruction to constrain output style and length.
-    - Uses the last ~10 messages to provide context.
+    Build a TinyLlama-Chat ChatML prompt from recent conversation history.
+    Uses the shared SYSTEM_PROMPT from llm_model and interleaves up to the
+    last 10 turns in the proper <|system|>/<|user|>/<|assistant|> format so
+    the instruction-tuned weights are fully engaged.
     """
     history = _get_user_message_store(user_id).get(conversation_id, [])
     recent_history = history[-10:]
-    latest_user = next((msg for msg in reversed(recent_history) if msg.role == "user"), None)
-    latest_content = latest_user.content if latest_user else ""
 
-    system = (
-        "You are a helpful assistant for the Opportunity Center. "
-        "Provide a single concise answer to the most recent user question. "
-        "Do not invent or ask questions. Reply with only the answer text, no prefixes or labels. "
-        "Keep replies under 80 words."
-    )
+    parts = [f"<|system|>\n{SYSTEM_PROMPT}</s>\n"]
+    for msg in recent_history:
+        if msg.role == "user":
+            parts.append(f"<|user|>\n{msg.content}</s>\n")
+        else:
+            parts.append(f"<|assistant|>\n{msg.content}</s>\n")
+    parts.append("<|assistant|>\n")
 
-    # Turn message history into a simple chat log for the prompt
-    history_lines = [f"{'User' if msg.role == 'user' else 'Assistant'}: {msg.content}" for msg in recent_history]
-    history_block = "\n".join(history_lines)
-
-    return (
-        f"{system}\n\n"
-        f"Recent conversation:\n{history_block}\n\n"
-        f"Answer the latest user question once. Do not add new questions.\n"
-        f"Latest question: {latest_content}\n"
-        f"Answer:"
-    )
+    return "".join(parts)
 
 
 def _conversation_summary(user_id: str, conversation_id: str) -> ConversationSummary:
@@ -266,7 +259,8 @@ def list_conversations(request: Request):
     """List all conversations for the requesting user (summary metadata)."""
     user_id = _get_user_id(request)
     user_meta = _get_user_metadata_store(user_id)
-    summaries = [_conversation_summary(user_id, conv_id) for conv_id in user_meta]
+    summaries = [_conversation_summary(user_id, conv_id)
+                 for conv_id in user_meta]
     summaries.sort(key=lambda s: s.updatedAt, reverse=True)
     return summaries
 
@@ -291,10 +285,12 @@ def chat_with_llm(req: SendMessageRequest, request: Request):
     user_id = _get_user_id(request)
     message_text = req.message.strip()
     if not message_text:
-        raise HTTPException(status_code=400, detail="Message must not be empty.")
+        raise HTTPException(
+            status_code=400, detail="Message must not be empty.")
 
     # Ensure conversation exists, append the user message
-    conversation_id = _ensure_conversation(user_id, req.conversationId, message_text)
+    conversation_id = _ensure_conversation(
+        user_id, req.conversationId, message_text)
     _store_message(user_id, conversation_id, "user", message_text)
 
     # Build a controlled prompt for the model
@@ -306,12 +302,11 @@ def chat_with_llm(req: SendMessageRequest, request: Request):
     try:
         reply_text = generate_text(
             prompt=prompt,
-            max_new_tokens=80,
+            max_new_tokens=200,
             temperature=0.2,
             top_p=0.8,
             do_sample=True,
             wrap_prompt=False,
-            strip_after="Answer:",
         )
     except ValueError as e:
         # Validation errors from the LLM helper (e.g., invalid parameters)
@@ -327,7 +322,8 @@ def chat_with_llm(req: SendMessageRequest, request: Request):
     # Clean the raw model reply to strip common sign‑offs
     clean_reply = strip_signature(reply_text).strip()
 
-    assistant_message = _store_message(user_id, conversation_id, "assistant", clean_reply)
+    assistant_message = _store_message(
+        user_id, conversation_id, "assistant", clean_reply)
     return SendMessageResponse(message=assistant_message, conversationId=conversation_id)
 
 
@@ -367,12 +363,12 @@ def get_admin_stats(request: Request):
     total_messages = sum(len(user_msgs.get(cid, [])) for cid in user_msgs)
     active_users = 1 if total_conversations > 0 else 0
     return {
-        "totalUsers": 1,  # or len(global_metadata_store) if you track all users
+        # or len(global_metadata_store) if you track all users
+        "totalUsers": 1,
         "totalConversations": total_conversations,
         "totalMessages": total_messages,
         "activeUsers": active_users,
     }
-
 
 
 @app.get("/api/admin/users")
@@ -460,7 +456,8 @@ def admin_test(req: TestRequest):
     Useful for verifying the settings form and basic request handling.
     """
     if not req.prompt.strip():
-        raise HTTPException(status_code=400, detail="Prompt must not be empty.")
+        raise HTTPException(
+            status_code=400, detail="Prompt must not be empty.")
     return {
         "output": f"Echo: {req.prompt}",
         "settings_used": req.settings,
